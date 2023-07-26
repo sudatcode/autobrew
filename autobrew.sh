@@ -135,6 +135,12 @@ install_homebrew() {
         term_message mb "Attempting to install Homebrew..."
         if /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; then
             task_done "Homebrew installed.\n"
+            if [[ "$(uname -m)" == "arm64" ]]; then
+                echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc
+            else
+                echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.zshrc
+            fi
+            source ~/.zshrc
         else
             task_fail "Homebrew install failed.\n"
             exit 1
